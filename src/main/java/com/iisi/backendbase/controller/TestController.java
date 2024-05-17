@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController()
-@RequestMapping(produces = "application/json;charset=UTF-8")
+@RequestMapping(value = {"/test"}, produces = "application/json;charset=UTF-8")
 @Slf4j
-public class BaseController {
+public class TestController {
     @Resource
     private UserRepository userRepository;
     @Resource
@@ -41,5 +41,8 @@ public class BaseController {
         return itemRepository.findAll();
     }
 
-
+    @RequestMapping(value = {"/userRoleInfo"})
+    public List<UserRepository.UserRoleDTO> userRole() {
+        return userRepository.findAllUserRoleNative();
+    }
 }

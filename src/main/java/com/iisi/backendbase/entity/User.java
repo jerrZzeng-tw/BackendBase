@@ -8,7 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +33,10 @@ import java.util.List;
  */
 @Entity()
 @Table(name = "user_info")
+//自動存入時間和使用者
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(chain = true)
+@Accessors(fluent = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -59,7 +61,10 @@ public class User implements Serializable {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
-    @OneToMany(targetEntity = UserRole.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private List<UserRole> userRoles = new ArrayList<>();
+    //    @OneToMany(targetEntity = UserRole.class, fetch = FetchType.LAZY)
+    //    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    //    private List<UserRole> userRoles = new ArrayList<>();
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+    private List<Role> roles = new ArrayList<>();
 }

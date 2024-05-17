@@ -12,9 +12,11 @@ import com.iisi.backendbase.repo.UserRepository;
 import com.iisi.backendbase.repo.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "userAuditorAware")
@@ -29,6 +31,8 @@ public class BackendBaseApplication {
     private ItemRepository itemRepository;
     @Resource
     private ItemUrlRepository itemUrlRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendBaseApplication.class, args);
@@ -36,8 +40,8 @@ public class BackendBaseApplication {
 
     @PostConstruct
     public void initRepo() {
-        User user1 = User.builder().username("user1").password("123456").email("user1@mail.com").build();
-        User user2 = User.builder().username("user2").password("234567").email("user2@mail.com").build();
+        User user1 = User.builder().username("user1").password(passwordEncoder.encode("123456")).email("user1@mail.com").build();
+        User user2 = User.builder().username("user2").password(passwordEncoder.encode("234567")).email("user2@mail.com").build();
         userRepository.save(user1);
         userRepository.save(user2);
         Role admin = Role.builder().roleName("admin").build();
