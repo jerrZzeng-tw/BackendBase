@@ -64,7 +64,7 @@ public class User implements Serializable {
     //    @OneToMany(targetEntity = UserRole.class, fetch = FetchType.LAZY)
     //    @JoinColumn(name = "userId", referencedColumnName = "userId")
     //    private List<UserRole> userRoles = new ArrayList<>();
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles = new ArrayList<>();
 }

@@ -17,7 +17,6 @@ public class LoginController {
 
     @RequestMapping(value = {"/login"})
     public LoginDTO login(@RequestBody LoginDTO loginDTO) {
-        loginDTO.setJwtToken("jwtToken");
         return loginService.login(loginDTO);
     }
 }

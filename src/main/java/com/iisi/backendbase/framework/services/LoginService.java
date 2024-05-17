@@ -2,6 +2,7 @@ package com.iisi.backendbase.framework.services;
 
 import com.iisi.backendbase.framework.BaseRuntimeException;
 import com.iisi.backendbase.framework.dto.LoginDTO;
+import com.iisi.backendbase.framework.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +15,8 @@ import java.util.Objects;
 public class LoginService {
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public LoginDTO login(LoginDTO loginDTO) {
         //创建一个UsernamePasswordAuthenticationToken对象，将用户的用户名和密码作为参数传入。
@@ -26,6 +29,9 @@ public class LoginService {
         if (Objects.isNull(authenticate)) {
             throw new BaseRuntimeException("用户名或者密码错误");
         }
+        loginDTO.setPassword("");
+        loginDTO.setJwtToken(jwtTokenProvider.generateToken(loginDTO.getUsername()));
+        loginDTO.setRoles(authenticate.getAuthorities().stream().map(Object::toString).toList());
         return loginDTO;
     }
 }

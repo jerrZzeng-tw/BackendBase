@@ -49,6 +49,7 @@ public class BackendBaseApplication {
         roleRepository.save(admin);
         roleRepository.save(staff);
         userRoleRepository.save(UserRole.builder().userId(user1.userId()).roleId(admin.roleId()).build());
+        userRoleRepository.save(UserRole.builder().userId(user1.userId()).roleId(staff.roleId()).build());
         userRoleRepository.save(UserRole.builder().userId(user2.userId()).roleId(staff.roleId()).build());
         Item root = Item.builder().itemName("base").level(0).sort(0).parentId(0L).function(false).build();
         itemRepository.save(root);

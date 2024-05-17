@@ -1,7 +1,11 @@
 package com.iisi.backendbase.framework;
 
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class BaseRuntimeException extends RuntimeException {
 
     private String errorCode;

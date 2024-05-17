@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,8 +43,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      */
     @Override
     public ResponseData beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-                                        Class<? extends HttpMessageConverter<?>> selectedConverterType,
-                                        ServerHttpRequest request, ServerHttpResponse response) {
+                                        Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+                                        ServerHttpResponse response) {
         // log.info("beforeBodyWrite");
         return new ResponseData("Y", StatusCode.SUCCESS, body);
     }
@@ -52,8 +53,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     public ResponseEntity<ResponseData> tbEexceptionHandler(BaseRuntimeException baseRuntimeException) {
         log.error("tb exception, message : " + baseRuntimeException);
         ResponseData responseObject =
-                new ResponseData("N", baseRuntimeException.getErrorCode(), baseRuntimeException.getErrorMessage(),
-                        baseRuntimeException.getData());
+                new ResponseData("N", baseRuntimeException.getErrorCode(), baseRuntimeException.getErrorMessage(), baseRuntimeException.getData());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(responseObject, headers, HttpStatus.OK);
@@ -62,8 +62,16 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ResponseData> exceptionHandler(Exception exception) {
         log.error("Occur internal exception, message : " + exception);
-        ResponseData responseObject =
-                new ResponseData("N", StatusCode.SYS_ERROR, null);
+        ResponseData responseObject = new ResponseData("N", StatusCode.SYS_ERROR, null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(responseObject, headers, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ResponseData> exceptionHandler(BadCredentialsException exception) {
+        log.error("Occur badCredentials exception, message : " + exception);
+        ResponseData responseObject = new ResponseData("N", StatusCode.LOGIN_ERROR, null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(responseObject, headers, HttpStatus.OK);

@@ -21,6 +21,13 @@ spring:
     time-zone: GMT+8
     serialization:
       fail-on-empty-beans: false
+      INDENT_OUTPUT: true
 server:
   servlet:
     context-path: /BackendBase
+    port: 8080
+
+# 系統自訂參數
+app:
+  jwt-secret: Xnnl4virliz0BzJnGAdsE6spyZvOU3d7
+  jwt-issuer: base
