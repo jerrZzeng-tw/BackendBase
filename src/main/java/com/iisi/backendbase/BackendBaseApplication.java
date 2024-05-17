@@ -48,19 +48,18 @@ public class BackendBaseApplication {
         Role staff = Role.builder().roleName("staff").build();
         roleRepository.save(admin);
         roleRepository.save(staff);
-        userRoleRepository.save(UserRole.builder().userId(user1.getUserId()).roleId(admin.getRoleId()).build());
-        userRoleRepository.save(UserRole.builder().userId(user2.getUserId()).roleId(staff.getRoleId()).build());
+        userRoleRepository.save(UserRole.builder().userId(user1.userId()).roleId(admin.roleId()).build());
+        userRoleRepository.save(UserRole.builder().userId(user2.userId()).roleId(staff.roleId()).build());
         Item root = Item.builder().itemName("base").level(0).sort(0).parentId(0L).function(false).build();
         itemRepository.save(root);
-        Item sysItem = Item.builder().itemName("系統管理").level(root.getLevel() + 1).sort(0).parentId(root.getItemId()).function(false).build();
+        Item sysItem = Item.builder().itemName("系統管理").level(root.level() + 1).sort(0).parentId(root.itemId()).function(false).build();
         itemRepository.save(sysItem);
-        Item userItem =
-                Item.builder().itemName("使用者管理").level(sysItem.getLevel() + 1).sort(0).parentId(sysItem.getItemId()).function(true).build();
+        Item userItem = Item.builder().itemName("使用者管理").level(sysItem.level() + 1).sort(0).parentId(sysItem.itemId()).function(true).build();
         itemRepository.save(userItem);
-        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.getItemId()).url("/User_query").comment("查詢所有使用者資料").build());
-        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.getItemId()).url("/User_add").comment("新增使用者資料").build());
-        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.getItemId()).url("/User_update").comment("更新使用者資料").build());
-        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.getItemId()).url("/User_delete").comment("刪除使用者資料").build());
+        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.itemId()).url("/User_query").comment("查詢所有使用者資料").build());
+        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.itemId()).url("/User_add").comment("新增使用者資料").build());
+        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.itemId()).url("/User_update").comment("更新使用者資料").build());
+        itemUrlRepository.save(ItemUrl.builder().itemId(userItem.itemId()).url("/User_delete").comment("刪除使用者資料").build());
 
     }
 }
