@@ -51,7 +51,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @ExceptionHandler(value = BaseRuntimeException.class)
     public ResponseEntity<ResponseData> tbEexceptionHandler(BaseRuntimeException baseRuntimeException) {
-        log.error("tb exception, message : " + baseRuntimeException);
+        log.error("tb exception, message : " + baseRuntimeException.getMessage(), baseRuntimeException);
         ResponseData responseObject =
                 new ResponseData("N", baseRuntimeException.getErrorCode(), baseRuntimeException.getErrorMessage(), baseRuntimeException.getData());
         HttpHeaders headers = new HttpHeaders();
@@ -61,7 +61,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ResponseData> exceptionHandler(Exception exception) {
-        log.error("Occur internal exception, message : " + exception);
+        log.error("Occur internal exception, message : " + exception.getMessage(), exception);
         ResponseData responseObject = new ResponseData("N", StatusCode.SYS_ERROR, null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -70,7 +70,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResponseEntity<ResponseData> exceptionHandler(BadCredentialsException exception) {
-        log.error("Occur badCredentials exception, message : " + exception);
+        log.error("Occur badCredentials exception, message : " + exception.getMessage(), exception);
         ResponseData responseObject = new ResponseData("N", StatusCode.LOGIN_ERROR, null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

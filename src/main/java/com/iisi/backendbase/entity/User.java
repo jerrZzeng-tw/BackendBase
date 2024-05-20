@@ -36,7 +36,7 @@ import java.util.List;
 //自動存入時間和使用者
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

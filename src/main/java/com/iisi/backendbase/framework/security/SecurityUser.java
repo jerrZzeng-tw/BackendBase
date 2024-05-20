@@ -18,8 +18,8 @@ public class SecurityUser implements UserDetails {
 
     public SecurityUser(User user) {
         this.user = user;
-        user.roles().forEach(t -> {
-            addRoles(t.roleName());
+        user.getRoles().forEach(t -> {
+            addRoles(t.getRoleName());
         });
     }
 
@@ -34,14 +34,14 @@ public class SecurityUser implements UserDetails {
     // 取得使用者名稱
     public String getUsername() {
         // TODO Auto-generated method stub
-        return this.user.username();
+        return this.user.getUsername();
     }
 
     @Override
     // 取得密碼
     public String getPassword() {
         // TODO Auto-generated method stub
-        return this.user.password();
+        return this.user.getPassword();
     }
 
     @Override

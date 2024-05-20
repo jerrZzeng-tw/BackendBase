@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Table(name = "user_role")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

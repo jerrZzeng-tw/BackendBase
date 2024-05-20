@@ -6,7 +6,6 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 角色TABLE
@@ -32,7 +29,7 @@ import java.util.List;
 @Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,6 +52,6 @@ public class Role implements Serializable {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
+    //    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    //    private List<User> users = new ArrayList<>();
 }

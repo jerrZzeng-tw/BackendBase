@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Table(name = "itemUrl")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

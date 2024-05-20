@@ -31,19 +31,19 @@ class BackendBaseApplicationTests {
         User user1 = User.builder().username("user1").password("123456").email("user@mail.com").build();
         userRepository.save(user1);
         // Read
-        Optional<User> result = userRepository.findById(user1.userId());
+        Optional<User> result = userRepository.findById(user1.getUserId());
         assertNotNull(result.orElse(null));
-        assertEquals(user1.username(), result.get().username());
-        assertEquals(user1.password(), result.get().password());
+        assertEquals(user1.getUsername(), result.get().getUsername());
+        assertEquals(user1.getPassword(), result.get().getPassword());
         log.info("user1: {}", user1);
         // Update
-        user1.password("654321");
+        user1.setPassword("654321");
         userRepository.save(user1);
-        result = userRepository.findById(user1.userId());
+        result = userRepository.findById(user1.getUserId());
         assertNotNull(result.orElse(null));
-        assertEquals(user1.password(), result.get().password());
+        assertEquals(user1.getPassword(), result.get().getPassword());
         // Delete
         userRepository.delete(user1);
-        assertFalse(userRepository.existsById(user1.userId()));
+        assertFalse(userRepository.existsById(user1.getUserId()));
     }
 }

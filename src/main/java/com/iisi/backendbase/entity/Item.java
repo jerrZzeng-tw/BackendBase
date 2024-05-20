@@ -33,7 +33,7 @@ import java.util.List;
 @Table(name = "item")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
