@@ -1,8 +1,11 @@
 package com.iisi.backendbase.controller;
 
 import com.iisi.backendbase.entity.Item;
+import com.iisi.backendbase.entity.ItemUrl;
+import com.iisi.backendbase.entity.Role;
 import com.iisi.backendbase.entity.User;
 import com.iisi.backendbase.repo.ItemRepository;
+import com.iisi.backendbase.repo.ItemUrlRepository;
 import com.iisi.backendbase.repo.RoleRepository;
 import com.iisi.backendbase.repo.UserRepository;
 import com.iisi.backendbase.repo.UserRoleRepository;
@@ -25,6 +28,8 @@ public class TestController {
     private UserRoleRepository userRoleRepository;
     @Resource
     private ItemRepository itemRepository;
+    @Resource
+    private ItemUrlRepository itemUrlRepository;
 
     @RequestMapping(value = {"/user"})
     public List<User> users() {
@@ -32,13 +37,18 @@ public class TestController {
     }
 
     @RequestMapping(value = {"/role"})
-    public List<User> roles() {
-        return userRepository.findAll();
+    public List<Role> roles() {
+        return roleRepository.findAll();
     }
 
     @RequestMapping(value = {"/item"})
     public List<Item> items() {
         return itemRepository.findAll();
+    }
+
+    @RequestMapping(value = {"/itemUrl"})
+    public List<ItemUrl> itemUrls() {
+        return itemUrlRepository.findAll();
     }
 
     @RequestMapping(value = {"/userRoleInfo"})

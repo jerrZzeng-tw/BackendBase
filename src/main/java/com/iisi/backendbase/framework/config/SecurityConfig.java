@@ -35,7 +35,7 @@ public class SecurityConfig {
     @Resource
     private UserRepository userRepository;
     @Autowired
-    private JwtAuthenticationFilter authenticationFilter;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -43,13 +43,14 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(final HttpSecurity http, final UserDetailsService userDetailsService) throws Exception {
         http.csrf(CsrfConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/h2-console/**").anonymous().anyRequest().authenticated())
+                .authorizeHttpRequests(
+                        authorize -> authorize.requestMatchers("/login", "/test/**", "/h2-console/**").anonymous().anyRequest().authenticated())
                 // for /h2-console
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(new UsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(userDetailsService)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint));
-        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

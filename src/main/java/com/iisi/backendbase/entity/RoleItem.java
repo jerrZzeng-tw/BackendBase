@@ -1,15 +1,11 @@
 package com.iisi.backendbase.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,29 +21,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
-/**
- * 系統功能項TABLE
- */
 @Entity()
-@Table(name = "item")
+@Table(name = "role_item")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Accessors(chain = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
-public class Item implements Serializable {
+public class RoleItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long roleId;
     private Long itemId;
-    private String itemName;
-    private int level; // 功能階層
-    private int sort; // 同階層排序
-    private Long parentId; // 上層功能ID
-    private boolean function; // true:此為功能, false:此為階層
     @Column(name = "created_by")
     @CreatedBy
     private String createdBy;
@@ -62,8 +50,4 @@ public class Item implements Serializable {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
-    @ManyToMany(mappedBy = "items")
-    private List<Role> roles;
-    @OneToMany(mappedBy = "item")
-    private List<ItemUrl> itemUrls;
 }

@@ -19,7 +19,7 @@ public class SecurityUser implements UserDetails {
     public SecurityUser(User user) {
         this.user = user;
         user.getRoles().forEach(t -> {
-            addRoles(t.getRoleName());
+            addRoles(t.getRoleId().toString());
         });
     }
 
