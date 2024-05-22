@@ -26,6 +26,9 @@ server:
   servlet:
     context-path: /BackendBase
     port: 8080
+    encoding:
+      charset: UTF-8
+      force: true
 
 # 系統自訂參數
 app:

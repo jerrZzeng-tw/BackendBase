@@ -63,7 +63,7 @@ public class User implements Serializable {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
-    @ManyToMany(targetEntity = Role.class)
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles = new ArrayList<>();
 }

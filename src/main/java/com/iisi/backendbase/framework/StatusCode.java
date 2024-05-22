@@ -3,7 +3,8 @@ package com.iisi.backendbase.framework;
 public enum StatusCode {
     SUCCESS("0", "成功"), //
     LOGIN_ERROR("ER0001", "使用者或密碼錯誤"),
-    AUTH_ERROR("ER0002", "認證錯誤"),//
+    AUTH_ERROR("ER0002", "認證錯誤"),
+    ACCESS_ERROR("ER0003", "權限不足"),//
     SYS_ERROR("ER0100", "系統錯誤"), //
     ARG_ERROR("ER0101", "參數錯誤"), //
     LOGIC_ERROR("ER0102", "邏輯錯誤"), //
