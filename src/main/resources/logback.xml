@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <property name="app" value="baseBackend" />
+    <property name="app" value="baseBackend"/>
 
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
 
@@ -17,7 +17,7 @@
 
 
     <!-- for output in a log file -->
-    <property name="DEV_HOME" value="/log/aplog/" />
+    <property name="DEV_HOME" value="/log/aplog/"/>
 
     <appender name="FILEOUT"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -40,9 +40,8 @@
     </appender>
 
     <root level="info">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILEOUT" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILEOUT"/>
     </root>
 
-    <logger name="tw.gov.bli.tb.dao" level="ERROR"/>
 </configuration>

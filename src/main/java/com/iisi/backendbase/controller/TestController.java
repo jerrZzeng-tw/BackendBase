@@ -11,6 +11,7 @@ import com.iisi.backendbase.repo.UserRepository;
 import com.iisi.backendbase.repo.UserRoleRepository;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,5 +55,11 @@ public class TestController {
     @RequestMapping(value = {"/userRoleInfo"})
     public List<UserRepository.UserRoleDTO> userRole() {
         return userRepository.findAllUserRoleNative();
+    }
+
+    @CacheEvict(value = "authCache", allEntries = true)
+    @RequestMapping(value = {"/cleanCache"})
+    public void cleanCache() {
+        log.info("cleanCache");
     }
 }
