@@ -70,11 +70,10 @@ public class SecurityConfig {
                         .access(authorizationManager))
                 // for /h2-console
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .addFilterBefore(new UsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(userDetailsService)
                 .exceptionHandling(
                         exception -> exception.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler));
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -125,7 +124,7 @@ public class SecurityConfig {
                                  AuthenticationException authException) throws IOException, ServletException {
                 response.setStatus(HttpStatus.OK.value());
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                response.getWriter().print(objectMapper.writeValueAsString(new ResponseData("N", StatusCode.AUTH_ERROR, null)));
+                response.getWriter().print(objectMapper.writeValueAsString(new ResponseData(StatusCode.AUTH_ERROR)));
             }
         };
     }
@@ -143,7 +142,7 @@ public class SecurityConfig {
                                AccessDeniedException accessDeniedException) throws IOException, ServletException {
                 response.setStatus(HttpStatus.OK.value());
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                response.getWriter().print(objectMapper.writeValueAsString(new ResponseData("N", StatusCode.ACCESS_ERROR, null)));
+                response.getWriter().print(objectMapper.writeValueAsString(new ResponseData(StatusCode.ACCESS_ERROR)));
             }
         };
     }

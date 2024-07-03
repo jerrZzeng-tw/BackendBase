@@ -4,6 +4,9 @@ import com.iisi.backendbase.entity.Item;
 import com.iisi.backendbase.entity.ItemUrl;
 import com.iisi.backendbase.entity.Role;
 import com.iisi.backendbase.entity.User;
+import com.iisi.backendbase.framework.BaseRuntimeException;
+import com.iisi.backendbase.framework.ResponseData;
+import com.iisi.backendbase.framework.StatusCode;
 import com.iisi.backendbase.repo.ItemRepository;
 import com.iisi.backendbase.repo.ItemUrlRepository;
 import com.iisi.backendbase.repo.RoleRepository;
@@ -61,5 +64,11 @@ public class TestController {
     @RequestMapping(value = {"/cleanCache"})
     public void cleanCache() {
         log.info("cleanCache");
+    }
+
+    @RequestMapping(value = {"/err"})
+    public ResponseData test() {
+        throw new BaseRuntimeException(StatusCode.SYS_ERROR);
+        //        return new ResponseData("Y", StatusCode.SUCCESS, "");
     }
 }
