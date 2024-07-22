@@ -2,12 +2,14 @@ package com.iisi.backendbase;
 
 import com.iisi.backendbase.entity.Item;
 import com.iisi.backendbase.entity.ItemUrl;
+import com.iisi.backendbase.entity.Log;
 import com.iisi.backendbase.entity.Role;
 import com.iisi.backendbase.entity.RoleItem;
 import com.iisi.backendbase.entity.User;
 import com.iisi.backendbase.entity.UserRole;
 import com.iisi.backendbase.repo.ItemRepository;
 import com.iisi.backendbase.repo.ItemUrlRepository;
+import com.iisi.backendbase.repo.LogRepository;
 import com.iisi.backendbase.repo.RoleItemRepository;
 import com.iisi.backendbase.repo.RoleRepository;
 import com.iisi.backendbase.repo.UserRepository;
@@ -17,10 +19,14 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Configuration
 @SpringBootApplication
+@EnableCaching
 @EnableJpaAuditing(auditorAwareRef = "userAuditorAware")
 public class BackendBaseApplication {
     @Resource
@@ -35,6 +41,8 @@ public class BackendBaseApplication {
     private ItemUrlRepository itemUrlRepository;
     @Resource
     private RoleItemRepository roleItemRepository;
+    @Resource
+    private LogRepository logRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -60,6 +68,7 @@ public class BackendBaseApplication {
         Item sysItem = Item.builder().itemName("系統管理").level(root.getLevel() + 1).sort(0).parentId(root.getItemId()).function(false).build();
         itemRepository.save(sysItem);
         itemUrlRepository.save(ItemUrl.builder().itemId(sysItem.getItemId()).url("/admin/users").comment("查詢所有使用者資料").build());
+        itemUrlRepository.save(ItemUrl.builder().itemId(sysItem.getItemId()).url("/admin/user").comment("查詢使用者資料").build());
         itemUrlRepository.save(ItemUrl.builder().itemId(sysItem.getItemId()).url("/admin/roles").comment("查詢所有腳色資料").build());
         Item userItem =
                 Item.builder().itemName("使用者管理").level(sysItem.getLevel() + 1).sort(0).parentId(sysItem.getItemId()).function(true).build();
@@ -68,5 +77,7 @@ public class BackendBaseApplication {
         roleItemRepository.save(RoleItem.builder().roleId(admin_role.getRoleId()).itemId(sysItem.getItemId()).build());
         roleItemRepository.save(RoleItem.builder().roleId(admin_role.getRoleId()).itemId(userItem.getItemId()).build());
         roleItemRepository.save(RoleItem.builder().roleId(staff.getRoleId()).itemId(userItem.getItemId()).build());
+
+        logRepository.save(Log.builder().url("/init").userId("sys").data("init").build());
     }
 }

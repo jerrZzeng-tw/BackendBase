@@ -1,6 +1,8 @@
 package com.iisi.backendbase.controller;
 
 import com.iisi.backendbase.entity.User;
+import com.iisi.backendbase.framework.annotation.ApLog;
+import com.iisi.backendbase.framework.security.SecurityUser;
 import com.iisi.backendbase.repo.UserRepository;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +17,11 @@ public class UserController {
     @Resource
     private UserRepository userRepository;
 
+    @ApLog
     @RequestMapping(value = {"/myInfo"})
     public User user() {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(username).orElse(null);
+        SecurityUser user = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(user.getUsername()).orElse(null);
     }
 
 }

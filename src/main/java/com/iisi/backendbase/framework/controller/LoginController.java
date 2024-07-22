@@ -26,6 +26,7 @@ public class LoginController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+
     @RequestMapping(value = {"/login"})
     public LoginDTO login(@RequestBody LoginDTO loginDTO) {
         //创建一个UsernamePasswordAuthenticationToken对象，将用户的用户名和密码作为参数传入。

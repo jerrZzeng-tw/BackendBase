@@ -64,7 +64,7 @@ public class SecurityConfig {
                                     final AuthorizationManager<RequestAuthorizationContext> authorizationManager) throws Exception {
         http.csrf(CsrfConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/test/**", "/h2-console/**")
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/test/**", "/h2-console/**", "*.html", "*.js")
                         .permitAll()
                         .anyRequest()
                         .access(authorizationManager))
@@ -99,11 +99,14 @@ public class SecurityConfig {
             public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
                 // 查詢URL所需權限
                 String requestURI = StringUtils.substringAfter(context.getRequest().getRequestURI(), CONTEXT_BASE);
-                List<String> roles = authService.findRolesByItemUrl(requestURI);
-                // 檢查目前使用者是否有權限存取
-                for (String role : roles) {
-                    if (authentication.get().getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(role))) {
-                        return new AuthorizationDecision(true);
+                List<String> roles = authService.findRolesByItemUrl(StringUtils.removeEnd(requestURI, "/"));
+
+                if (!authentication.get().getPrincipal().equals("anonymousUser")) {
+                    // 檢查目前使用者是否有權限存取
+                    for (String role : roles) {
+                        if (authentication.get().getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(role))) {
+                            return new AuthorizationDecision(true);
+                        }
                     }
                 }
                 return new AuthorizationDecision(false);

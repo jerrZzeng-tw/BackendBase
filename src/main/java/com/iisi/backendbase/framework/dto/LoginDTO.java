@@ -13,7 +13,7 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDTO {
+public class LoginDTO extends BaseDTO {
     private String username;
     private String password;
     private String jwtToken;

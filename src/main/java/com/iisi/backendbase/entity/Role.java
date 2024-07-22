@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 角色TABLE
  */
-@Entity()
+@Entity
 @Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
 @Data
